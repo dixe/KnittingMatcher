@@ -1,5 +1,5 @@
-import * as wasm from "/wasm_knitting_matcher.js";
-import { memory } from "/wasm_knitting_matcher_bg.js";
+import * as wasm from "./wasm_knitting_matcher.js";
+import { memory } from "./wasm_knitting_matcher_bg.js";
 
 const calcButton = document.getElementById("calc");
 

@@ -1,6 +1,24 @@
 use std::cmp::Ordering;
 use std::cmp::Ord;
 
+mod utils;
+
+use wasm_bindgen::prelude::*;
+
+// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
+// allocator.
+#[cfg(feature = "wee_alloc")]
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+#[wasm_bindgen]
+extern {
+    fn alert(s: &str);
+}
+
+
+
+#[wasm_bindgen]
 pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
 
     // get top so that top/bottom is a whole number
@@ -53,7 +71,7 @@ pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
             match top_with_fakes[i] {
                 Entry::Real(top_index) => {
                     set += 1;
-                    mappings.push(Mapping {top_index, bottom_index });
+                    mappings.push(Mapping {top_index: top_index as u32, bottom_index: bottom_index as u32 });
                 },
                 _ => {}
             };
@@ -76,17 +94,33 @@ enum Entry {
     Real(usize)
 }
 
+#[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct Pattern {
-    top_loops: usize,
-    bottom_loops: usize,
+    pub top_loops: usize,
+    pub bottom_loops: usize,
     mappings: Vec::<Mapping>
 }
 
+#[wasm_bindgen]
+impl Pattern {
+    pub fn mappings(&self) -> *const Mapping {
+        self.mappings.as_ptr()
+    }
+
+    pub fn mappings_count(&self) -> u32 {
+        self.mappings.len() as u32
+    }
+}
+
+
+
+#[wasm_bindgen]
+#[repr(C)]
 #[derive(Copy, Clone, Debug, Eq)]
 pub struct Mapping {
-    top_index: usize,
-    bottom_index: usize
+    top_index: u32,
+    bottom_index: u32
 }
 
 
@@ -141,41 +175,6 @@ mod tests {
 
         ]);
     }
-
-    #[test]
-    fn test_32_9() {
-
-        let pattern = get_pattern(32, 9);
-
-        println!("{:?}", pattern.mappings.len());
-        println!("{:#?}", pattern);
-        assert_eq!(pattern.mappings, vec![
-
-            // To 0
-            Mapping { top_index: 0, bottom_index: 0 },
-
-            // To 1
-            Mapping { top_index: 1, bottom_index: 1 },
-            Mapping { top_index: 2, bottom_index: 1 },
-
-            // To 2
-            Mapping { top_index: 3, bottom_index: 2 },
-
-            // To 3
-            Mapping { top_index: 4, bottom_index: 3 },
-
-            // To 4
-            Mapping { top_index: 5, bottom_index: 4 },
-            Mapping { top_index: 6, bottom_index: 4 },
-
-            // To 5
-            Mapping { top_index: 7, bottom_index: 5 },
-
-            // To 6
-            Mapping { top_index: 8, bottom_index: 6 },
-        ]);
-    }
-
 
     #[test]
     fn test_9_7() {
