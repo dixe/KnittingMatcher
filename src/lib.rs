@@ -5,7 +5,6 @@ pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
 
     // get top so that top/bottom is a whole number
 
-
     let mut top_steps = top_loops/bottom_loops;
 
     if top_steps * bottom_loops != top_loops {
@@ -16,7 +15,7 @@ pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
 
     let phantoms = fake_top - top_loops;
 
-    println!("{:?}, {} {}", top_steps, fake_top, phantoms);
+    //println!("{:?}, {} {}", top_steps, fake_top, phantoms);
 
     let mut top_with_fakes = vec![Entry::Fake; fake_top];
 
@@ -80,7 +79,7 @@ enum Entry {
 pub struct Pattern {
     top_loops: usize,
     bottom_loops: usize,
-    mappings: Vec::<Mapping>
+    mappings: Vec::<Mapping>,
 }
 
 #[derive(Copy, Clone, Debug, Eq)]
@@ -119,6 +118,7 @@ mod tests {
 
     use super::*;
 
+
     #[test]
     fn test_6_4() {
         let pattern = get_pattern(6, 4);
@@ -142,7 +142,7 @@ mod tests {
         ]);
     }
 
-    #[test]
+    //#[test]
     fn test_32_9() {
 
         let pattern = get_pattern(32, 9);
@@ -206,5 +206,29 @@ mod tests {
             // To 6
             Mapping { top_index: 8, bottom_index: 6 },
         ]);
+    }
+
+    #[test]
+    fn test_145_125() {
+        let pattern = get_pattern(145, 125);
+
+        let mut last_bot = -1;
+
+        let mut i = 0;
+        for mapping in pattern.mappings {
+
+            if last_bot == mapping.bottom_index as i32 {
+                println!("{:?}", i );
+                i = -1;
+            }
+
+            last_bot = mapping.bottom_index as i32;
+            i += 1;
+
+            //println!("{:?}", mapping);
+
+        }
+
+        assert_eq!(true, false);
     }
 }
