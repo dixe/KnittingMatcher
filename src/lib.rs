@@ -34,8 +34,6 @@ pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
 
     let phantoms = fake_top - top_loops;
 
-    println!("{:?}, {} {}", top_steps, fake_top, phantoms);
-
     let mut top_with_fakes = vec![Entry::Fake; fake_top];
 
     let fake_interval = top_loops as f64 / phantoms as f64;
@@ -81,6 +79,46 @@ pub fn get_pattern(top_loops: usize, bottom_loops: usize) -> Pattern {
     }
 
     mappings.sort();
+
+    // find first double
+    let mut cur = -1;
+    let mut count = 1;
+
+    let mut last_double = None;
+    let mut last_index = 0;
+
+    for mapping in &mappings {
+        if mapping.bottom_index as i32 == cur {
+            last_double = Some(mapping.bottom_index);
+        }
+
+        cur = mapping.bottom_index as i32;
+        last_index = mapping.bottom_index;
+    }
+
+
+    if let Some(fd) = last_double {
+        // if we have anything 1 to 1 in the end, put them in the front.
+        // This will make the pattern of when take take in/out prettier
+        let single_in_end = last_index - fd;
+        for mapping in &mut mappings {
+            mapping.bottom_index += single_in_end;
+            mapping.top_index += single_in_end;
+        }
+
+        for _ in 0..single_in_end {
+            mappings.pop();
+        }
+        for i in 0..single_in_end {
+            mappings.push(Mapping {top_index: i as u32, bottom_index: i as u32 });
+        }
+
+        mappings.sort();
+    }
+
+
+
+
     Pattern {
         top_loops,
         bottom_loops,
@@ -119,8 +157,8 @@ impl Pattern {
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Eq)]
 pub struct Mapping {
-    top_index: u32,
-    bottom_index: u32
+    pub top_index: u32,
+    pub bottom_index: u32
 }
 
 
@@ -205,5 +243,16 @@ mod tests {
             // To 6
             Mapping { top_index: 8, bottom_index: 6 },
         ]);
+    }
+
+    #[test]
+    fn test_180_145() {
+        let pattern = get_pattern(145, 125);
+
+        println!("{:#?}", pattern);
+
+
+
+        assert!(true);
     }
 }

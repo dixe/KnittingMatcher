@@ -16,6 +16,8 @@ const calcButton = document.getElementById("calc");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
+const numbers_pattern = document.getElementById("numbers_pattern");
+
 calcButton.addEventListener("click", event => {
     var top =  parseInt(document.getElementById("top").value);
     var bottom = parseInt(document.getElementById("bottom").value);
@@ -36,6 +38,23 @@ calcButton.addEventListener("click", event => {
     }
 
     draw(mappings, top, bottom);
+
+    var cur = -1;
+    var singles = 1;
+    var out = [];
+
+    for (let i = 0; i < mappings.length; i++) {
+        var mapping = mappings[i];
+
+        if(mapping.bottom === cur) {
+            out.push(singles - 1);
+            singles = 0;
+        }
+
+        singles += 1;
+        cur = mapping.bottom;
+    }
+    numbers_pattern.innerText = out;
 
 });
 

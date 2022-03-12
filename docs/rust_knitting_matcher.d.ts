@@ -10,6 +10,12 @@ export function get_pattern(top_loops: number, bottom_loops: number): Pattern;
 */
 export class Mapping {
   free(): void;
+/**
+*/
+  bottom_index: number;
+/**
+*/
+  top_index: number;
 }
 /**
 */
@@ -44,6 +50,10 @@ export interface InitOutput {
   readonly pattern_mappings: (a: number) => number;
   readonly pattern_mappings_count: (a: number) => number;
   readonly __wbg_mapping_free: (a: number) => void;
+  readonly __wbg_get_mapping_top_index: (a: number) => number;
+  readonly __wbg_set_mapping_top_index: (a: number, b: number) => void;
+  readonly __wbg_get_mapping_bottom_index: (a: number) => number;
+  readonly __wbg_set_mapping_bottom_index: (a: number, b: number) => void;
 }
 
 /**

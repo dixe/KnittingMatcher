@@ -41,6 +41,30 @@ export class Mapping {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_mapping_free(ptr);
     }
+    /**
+    */
+    get top_index() {
+        var ret = wasm.__wbg_get_mapping_top_index(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set top_index(arg0) {
+        wasm.__wbg_set_mapping_top_index(this.ptr, arg0);
+    }
+    /**
+    */
+    get bottom_index() {
+        var ret = wasm.__wbg_get_mapping_bottom_index(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @param {number} arg0
+    */
+    set bottom_index(arg0) {
+        wasm.__wbg_set_mapping_bottom_index(this.ptr, arg0);
+    }
 }
 /**
 */

@@ -10,3 +10,7 @@ export function __wbg_set_pattern_bottom_loops(a: number, b: number): void;
 export function pattern_mappings(a: number): number;
 export function pattern_mappings_count(a: number): number;
 export function __wbg_mapping_free(a: number): void;
+export function __wbg_get_mapping_top_index(a: number): number;
+export function __wbg_set_mapping_top_index(a: number, b: number): void;
+export function __wbg_get_mapping_bottom_index(a: number): number;
+export function __wbg_set_mapping_bottom_index(a: number, b: number): void;
