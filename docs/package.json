@@ -1,0 +1,15 @@
+{
+  "name": "wasm-knitting-matcher",
+  "collaborators": [
+    "Nikolaj Østergaard <niko.fris@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "wasm_knitting_matcher_bg.wasm",
+    "wasm_knitting_matcher.js",
+    "wasm_knitting_matcher.d.ts"
+  ],
+  "module": "wasm_knitting_matcher.js",
+  "types": "wasm_knitting_matcher.d.ts",
+  "sideEffects": false
+}

@@ -1,5 +1,5 @@
-import init from "./pkg/wasm_knitting_matcher.js";
-import {get_pattern} from "./pkg/wasm_knitting_matcher.js";
+import init from "./wasm_knitting_matcher.js";
+import { get_pattern } from "./wasm_knitting_matcher.js";
 
 
 // Run init from wasm to compile the wasm
