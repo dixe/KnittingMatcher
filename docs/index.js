@@ -54,7 +54,7 @@ calcButton.addEventListener("click", event => {
         singles += 1;
         cur = mapping.bottom;
     }
-    numbers_pattern.innerText = out;
+    numbers_pattern.innerText = out + "\n" + out.reduce((acc,cur) => acc + cur);
 
 });
 
@@ -81,9 +81,10 @@ const COLOR = "#CCCCCC";
 
 const draw = (mappings, top, bottom) => {
 
-    const w = canvas.width;
+    const w = top * 15;
     const h = canvas.height;
 
+    canvas.width = w;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     var padding = 5;
